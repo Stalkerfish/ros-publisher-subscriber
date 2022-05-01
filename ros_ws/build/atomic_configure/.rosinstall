@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/atlas/environment/ros-publisher-subscriber/ros_ws/devel/setup.sh
