@@ -1,0 +1,8 @@
+prefix=/home/atlas/environment/ros-publisher-subscriber/ros_ws/devel
+
+Name: pubpub
+Description: Description of pubpub
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
