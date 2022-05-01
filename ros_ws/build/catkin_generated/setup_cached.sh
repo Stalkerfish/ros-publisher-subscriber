@@ -7,4 +7,5 @@
 # new environment variables
 
 # modified environment variables
+export PKG_CONFIG_PATH="/home/atlas/environment/ros-publisher-subscriber/ros_ws/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD='/home/atlas/environment/ros-publisher-subscriber/ros_ws/build'
