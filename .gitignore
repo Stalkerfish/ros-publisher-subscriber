@@ -1,6 +1,7 @@
 ros_ws/.pydevproject
 ros_ws/cmake_install.cmake
 ros_ws/build/*
+ros_ws/build/
 ros_ws/bin/
 ros_ws/lib/
 ros_ws/msg_gen/
