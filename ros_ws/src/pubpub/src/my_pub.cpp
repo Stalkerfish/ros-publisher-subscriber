@@ -1,21 +1,55 @@
-#include <ros/ros.h>
-#include <std_msgs/String.h>
+// #include <Arduino.h>
+#include <ros.h>
+#include <std_msgs/Bool.h>
 
-int main (int argc, char **argv){
-	ros::init(argc, argv, "my_pub");
-	ros::NodeHandle nh;
+ros::NodeHandle nh;
 
-	ros::Publisher pub = nh.advertise<std_msgs::String>("/my_topic", 10);
+std_msgs::Bool msg;
+ros::Publisher pub("/button", &button_msg);
 
+const int button = 3;
+const int led = 13;
 
-	ROS_INFO("Node has been started");
+bool buttonState;
+bool ledState;
+bool lastReading = LOW;
+long lastDebounceTime = 0;
+long debounceDelay = 50;
 
-	ros::Rate rate(2);
+bool published = true;
 
-	while (ros::ok()){
-		std_msgs::String msg;
-		msg.data = "I'm Publishing!";
-		pub.publish(msg);
-		rate.sleep();
-	}
+void setup() {
+    nh.initNode();
+    nh.advertise(pub);
+
+    pinMode(button, INPUT);
+    pinMode(led, OUTPUT);
+
+    digitalWrite(button, HIGH);
+
+    ROS_INFO("Node has been started");
+}
+
+void loop() {
+    bool reading = digitalRead(button_pin);
+
+    if (lastReading != reading) {
+        lastDebounceTime = millis();
+        published = false;
+    }
+
+    if (!published && (millis() - lastDebounceTime) > debounceDelay) {
+        if (reading != buttonState)
+            buttonState = reading;
+        if (buttonState == HIGH)
+            ledState = !ledState;
+
+        button_msg.data = buttonState;
+        pub.publish(&button_msg);
+        published = true;
+    }
+	digitalWrite(led, ledState);
+	lastReading = reading;
+
+	nh.spinOnce();
 }
